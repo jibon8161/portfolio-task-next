@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
-
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import Slider from "react-slick";
 import Service from "../pages/api/Service";
@@ -17,7 +17,7 @@ export default function Home() {
   };
 
   const testimonialSettings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 1,
@@ -27,13 +27,14 @@ export default function Home() {
   };
 
   const teamSettings = {
-    dots: true,
+    dots: false,
     infinite: true,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 3000,
+
+    autoplaySpeed: 1000,
     responsive: [
       {
         breakpoint: 768,
@@ -46,17 +47,78 @@ export default function Home() {
   };
 
   const settings = {
-    dots: true,
+    dots: false,
     infinite: true,
-    speed: 500,
+    speed: 800,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 5000,
-    arrows: false,
+    autoplaySpeed: 1000,
+    arrows: true,
     fade: true,
     cssEase: "linear",
   };
+
+const NextArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{
+        ...style,
+        display: "block",
+        background: "linear-gradient(135deg, #4e8dff, #2563eb)",
+        borderRadius: "50%",
+        width: "40px",
+        height: "40px",
+        lineHeight: "40px",
+        textAlign: "center",
+        cursor: "pointer",
+        color: "white",
+        fontSize: "20px",
+        position: "absolute",
+        top: "50%",
+        right: "20px",
+        transform: "translateY(-50%)",
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+      }}
+      onClick={onClick}
+    >
+      &rarr;
+    </div>
+  );
+};
+
+const PrevArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <div
+      className={className}
+      style={{
+        ...style,
+        display: "block",
+        background: "linear-gradient(135deg, #4e8dff, #2563eb)",
+        borderRadius: "50%",
+        width: "40px",
+        height: "40px",
+        lineHeight: "40px",
+        textAlign: "center",
+        cursor: "pointer",
+        color: "white",
+        fontSize: "20px",
+        position: "absolute",
+        top: "50%",
+        left: "20px",
+        transform: "translateY(-50%)",
+        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+      }}
+      onClick={onClick}
+    >
+      &larr;
+    </div>
+  );
+};
+
 
   const [userData, setUserData] = useState(null);
   const [loader, setLoader] = useState(true);
@@ -135,31 +197,33 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="col-lg-3 text-right">
-                    <div className="">
-                      <ul className="w-2">
-                        {" "}
-                        {/* Added list-inline class */}
-                        {userData?.user?.social_handles.map((social, index) => (
-                          <li
-                            key={index}
-                            className="d-inline-block mr-2" // Added d-inline-block and mr-2 classes for inline display
-                            style={{
-                              borderBottom: "1px solid #769cef",
-                              paddingBottom: "5px",
-                            }}
-                          >
-                            <a href={social.url} title={social.platform}>
-                              <img
-                                className="small-social-icon" // Added small-social-icon class
-                                src={social.image.url}
-                                alt={social.name}
-                                style={{ marginBottom: "5px" }}
-                              />
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                    <ul className=" d-flex">
+                      {userData?.user?.social_handles.map((social, index) => (
+                        <li
+                          key={index}
+                          className="mr-2"
+                          style={{
+                            borderBottom: "1px solid #769cef",
+                            paddingBottom: "5px",
+                            display: "inline-block",
+                          }}
+                        >
+                          <a href={social.url} title={social.platform}>
+                            <img
+                              className=""
+                              src={social.image.url}
+                              alt={social.name}
+                              style={{
+                                marginBottom: "5px",
+                                width: "55px",
+                                height: "55px",
+                                padding: "15px",
+                              }}
+                            />
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
               </div>
@@ -174,7 +238,7 @@ export default function Home() {
                       </a>
                     </div>
                   </div>
-                  <div className="col-lg-10 text-right">
+                  <div className="col-lg-12 text-right">
                     <div className="mobile-menu-wrap"></div>
                     <div className="header-search">
                       <span className="search-btn">
@@ -222,7 +286,13 @@ export default function Home() {
             </div>
           </header>
 
-          <Slider {...settings}>
+          {/* <Slider {...settings}></Slider> */}
+
+          <Slider
+            {...settings}
+            nextArrow={<NextArrow />}
+            prevArrow={<PrevArrow />}
+          >
             <div
               className="single-hero-area hero-bg-1 bg_cover"
               data-scroll-area="true"
@@ -585,7 +655,12 @@ export default function Home() {
               </div>
               <div className="row">
                 <div className="col-lg-12">
-                  <Slider {...teamSettings} className="hide-slider-button">
+                  <Slider
+                    {...teamSettings}
+                    nextArrow={<NextArrow />}
+                    prevArrow={<PrevArrow />}
+                    className="hide-slider-button"
+                  >
                     {userData?.user?.skills.map((skill, index) => (
                       <div key={index} className="single-team-area">
                         <div className="single-team-img text-center ml-3">
@@ -720,6 +795,8 @@ export default function Home() {
                 <div className="col-lg-7">
                   <Slider
                     {...testimonialSettings}
+                    nextArrow={<NextArrow />}
+                    prevArrow={<PrevArrow />}
                     className="testimonial-carousel-active"
                   >
                     {userData?.user?.testimonials.map((testimonial, index) => (
