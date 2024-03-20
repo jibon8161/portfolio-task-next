@@ -341,7 +341,7 @@ export default function Home() {
                       {isMenuOpen ? <>&#8801;</> : <>&#8801;</>}{" "}
                     </button>
 
-                    {/* Mobile menu */}
+                  
                     {isMenuOpen && (
                       <div
                         style={{
@@ -466,7 +466,7 @@ export default function Home() {
                     <div className="main-menu">
                       <nav>
                         <ul>
-                          {/* Desktop menu items */}
+                        
                           <li>
                             <a className="active" href="#home">
                               Home
@@ -756,7 +756,7 @@ export default function Home() {
                   ))}
                 </div>
 
-                {/* CSS */}
+             
                 <style jsx>{`
                   .service-card {
                     border: 1px solid #ccc;
@@ -928,7 +928,7 @@ export default function Home() {
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="video-icon-area">
-                      {/* Use appropriate React components or libraries for the video popup */}
+                     
                       <a
                         href={`https://www.youtube.com/watch?v=${video.embedId}`}
                         className="video-icon video-popup"
@@ -1007,11 +1007,14 @@ export default function Home() {
             <div className="container">
               <div className="row">
                 <div className="col-lg-5">
-                  <img
-                    className="w-full mt-100 p-3"
-                    src={userData?.user?.testimonials[0]?.image?.url}
-                    alt=""
-                  />
+                 
+                  <div className="text-center">
+                    <img
+                      className="w-full mt-100 p-3 mx-auto d-block"
+                      src={userData?.user?.testimonials[0]?.image?.url}
+                      alt=""
+                    />
+                  </div>
                 </div>
                 <div className="col-lg-7">
                   <Slider
@@ -1044,6 +1047,7 @@ export default function Home() {
               </div>
             </div>
           </section>
+
           {/* <!--======  TESTIMONIAL PART END ======--> */}
           {/* <!--======  PRICING PART START ======--> */}
           <section className="pricing-area pt-140 pb-140" id="price">
@@ -1267,42 +1271,85 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="row">
+              <div className="row ">
                 <div className="col-lg-12">
-                  <div className="contact-form-area">
+                  <div className="md:contact-form-area">
                     <form action="#">
-                      <div className="single-contact-field">
-                        <input type="text" placeholder="Your Name" />
-                        <span className="far fa-user"></span>
+                    
+                      <div className="row mb-3 ">
+                        <div className="col-lg-4 col-md-12 mb-md-3 mb-lg-0 ">
+                          <div className="input-group">
+                            <input
+                              type="text"
+                              placeholder="Your Name"
+                              className="form-control bg-transparent "
+                            />
+                            <span className="input-group-text bg-transparent ">
+                              <i className="far fa-user text-light "></i>
+                            </span>
+                          </div>
+                        </div>
+                        <div className="col-lg-4 col-md-12 mb-md-3 mb-lg-0">
+                          <div className="input-group">
+                            <input
+                              type="email"
+                              placeholder="Your email"
+                              className="form-control bg-transparent"
+                            />
+                            <span className="input-group-text bg-transparent">
+                              <i className="fas fa-envelope-open-text text-light"></i>
+                            </span>
+                          </div>
+                        </div>
+                        <div className="col-lg-4 col-md-12">
+                          <div className="input-group">
+                            <input
+                              type="text"
+                              placeholder="Your phone"
+                              className="form-control bg-transparent"
+                            />
+                            <span className="input-group-text bg-transparent">
+                              <i className="fas fa-phone text-light"></i>
+                            </span>
+                          </div>
+                        </div>
                       </div>
 
-                      <div className="single-contact-field">
-                        <input type="email" placeholder="Your email" />
-                        <span className="fas fa-envelope-open-text"></span>
+                    
+                      <div className="row mb-3">
+                        <div className="col-lg-12">
+                          <div className="input-group">
+                            <textarea
+                              name="#"
+                              id="#"
+                              cols="30"
+                              rows="10"
+                              placeholder="Your Message"
+                              className="form-control bg-transparent"
+                            ></textarea>
+                            <span className="input-group-text bg-transparent">
+                              <i className="fas fa-pencil-alt text-light"></i>
+                            </span>
+                          </div>
+                        </div>
                       </div>
 
-                      <div className="single-contact-field">
-                        <input type="text" placeholder="Your phone" />
-                        <span className="fas fa-phone"></span>
-                      </div>
-
-                      <div className="single-contact-field textarea">
-                        <textarea
-                          name="#"
-                          id="#"
-                          cols="30"
-                          rows="10"
-                          placeholder="Your Message"
-                        ></textarea>
-                        <span className="fas fa-pencil-alt"></span>
-                        <a href="#" className="btn contact-btn">
-                          send message <i className="fa fa-arrow-right"></i>
-                        </a>
+                  
+                      <div className="row mb-3">
+                        <div className="col-lg-12">
+                          <button
+                            type="submit"
+                            className="btn btn-primary w-100"
+                          >
+                            send message <i className="fa fa-arrow-right"></i>
+                          </button>
+                        </div>
                       </div>
                     </form>
                   </div>
                 </div>
               </div>
+
               <div className="row">
                 <div className="col-lg-4">
                   <div className="single-address-area">
@@ -1338,7 +1385,7 @@ export default function Home() {
                   </div>
                   <div className="col-lg-6 text-lg-end">
                     {" "}
-                    {/* Align items to end (right) */}
+                
                     <ul className="footer-as d-flex justify-content-end list-unstyled">
                       {userData?.user?.social_handles.map((social, index) => (
                         <li key={index} className="m-1">
