@@ -9,6 +9,8 @@ import Service from "../pages/api/Service";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [userData, setUserData] = useState(null);
+  const [loader, setLoader] = useState(true);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
   const [isSticky, setIsSticky] = useState(false);
@@ -107,6 +109,35 @@ export default function Home() {
     cssEase: "linear",
   };
 
+  const HeroNextArrow = (props) => {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{
+          ...style,
+          display: "block",
+          background: "linear-gradient(135deg, #4e8dff, #2563eb)",
+          borderRadius: "50%",
+          width: "40px",
+          height: "40px",
+          lineHeight: "40px",
+          textAlign: "center",
+          cursor: "pointer",
+          color: "white",
+          fontSize: "20px",
+          position: "absolute",
+          top: "50%",
+          right: "100px",
+          transform: "translateY(-50%)",
+          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+        }}
+        onClick={onClick}
+      >
+        &rarr;
+      </div>
+    );
+  };
   const NextArrow = (props) => {
     const { className, style, onClick } = props;
     return (
@@ -126,7 +157,7 @@ export default function Home() {
           fontSize: "20px",
           position: "absolute",
           top: "50%",
-          right: "20px",
+          right: "-100px",
           transform: "translateY(-50%)",
           boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
         }}
@@ -144,7 +175,7 @@ export default function Home() {
         className={className}
         style={{
           ...style,
-          display: "block",
+          display: "none",
           background: "linear-gradient(135deg, #4e8dff, #2563eb)",
           borderRadius: "50%",
           width: "40px",
@@ -167,8 +198,6 @@ export default function Home() {
     );
   };
 
-  const [userData, setUserData] = useState(null);
-  const [loader, setLoader] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -202,7 +231,6 @@ export default function Home() {
       ) : (
         <div>
           {/* <!--======  OFFCANVAS-SEARCH PART START ======--> */}
-
           <div className="offcanvas-search-area">
             <form action="#">
               <input type="text" placeholder="search" />
@@ -211,9 +239,7 @@ export default function Home() {
               </span>
             </form>
           </div>
-
           {/* <!--======  HEADER PART START ======--> */}
-
           <header id="home">
             <div className="top-header-area">
               <div className="container">
@@ -283,7 +309,9 @@ export default function Home() {
                 left: isSticky ? "0" : "auto",
                 right: isSticky ? "0" : "auto",
                 zIndex: isSticky ? "1000" : "auto",
-               backgroundColor: isSticky ? "rgba(0, 0, 0, 0.5)" : "transparent",
+                backgroundColor: isSticky
+                  ? "rgba(0, 0, 0, 0.5)"
+                  : "transparent",
                 zIndex: isSticky ? "1000" : "auto",
               }}
             >
@@ -476,12 +504,9 @@ export default function Home() {
               </div>
             </div>
           </header>
-
-          {/* <Slider {...settings}></Slider> */}
-
           <Slider
             {...settings}
-            nextArrow={<NextArrow />}
+            nextArrow={<HeroNextArrow />}
             prevArrow={<PrevArrow />}
           >
             <div
@@ -625,13 +650,9 @@ export default function Home() {
               </div>
             </div>
           </Slider>
-
           {/* <!--======  SERVICE-CATEGORIES PART START ======--> */}
-
           <Service></Service>
-
           {/* about us section start */}
-
           <section className="about-us-area" id="About">
             <div className="container">
               <div className="row">
@@ -690,15 +711,13 @@ export default function Home() {
             </div>
           </section>
 
-          {/* about us section start */}
-
+          {/* about us section end */}
           {/* services section start */}
-
           <section
             className="service-area service-bg pt-140 pb-140"
             id="Services"
           >
-            <div className="container">
+            <div className="container-fluid">
               <div className="row">
                 <div className="col-lg-6 offset-lg-3 text-center pb-80">
                   <div className="section-title service-title">
@@ -713,31 +732,57 @@ export default function Home() {
                 </div>
               </div>
               <div className="container">
-                <div className="row pb-30">
+                <div className="row">
                   {userData?.user?.services.map((service, index) => (
-                    <div className="col-lg-6 mb-4" key={index}>
-                      <div className="single-service-box">
-                        <div className="single-service-icon-box ">
-                          {/* <p>{index + 1}</p> */}
-                          <img src={service?.image.url} alt="" />
-                          {/* <i className={`fas ${service.image.url}`}></i> */}
-                        </div>
-                        <div className="service-box-content">
-                          <h3>{service?.name}</h3>
-                          <h3>Charge: {service?.charge}</h3>
-                          <p>{service?.desc}</p>
+                    <div
+                      className="col-lg-6 col-md-6 col-sm-12 mb-4"
+                      key={index}
+                    >
+                      <div className="service-card">
+                        <div className="service-item">
+                          <img
+                            src={service.image.url}
+                            className="service-thumbnail"
+                            alt=""
+                          />
+                          <div className="service-details">
+                            <h3>{service.name}</h3>
+                            <h4>Charge: {service.charge}</h4>
+                            <p className="text-light mt-3">{service.desc}</p>
+                          </div>
                         </div>
                       </div>
                     </div>
                   ))}
                 </div>
+
+                {/* CSS */}
+                <style jsx>{`
+                  .service-card {
+                    border: 1px solid #ccc;
+                    border-radius: 10px;
+                    padding: 20px;
+                  }
+
+                  .service-item {
+                    display: flex;
+                  }
+
+                  .service-thumbnail {
+                    width: 80px;
+                    height: auto;
+                    margin-right: 25px;
+                  }
+
+                  .service-details {
+                    flex-grow: 1;
+                  }
+                `}</style>
               </div>
             </div>
           </section>
           {/* services section end */}
-
           {/* portfolio section  start*/}
-
           <section className="portfolio-area pt-140 pb-140" id="portfolio">
             <div className="container">
               <div className="row pb-80">
@@ -801,11 +846,8 @@ export default function Home() {
               </div>
             </div>
           </section>
-
           {/* portfolio section  end */}
-
           {/* <!--======  CTA PART START ======--> */}
-
           <section className="cta-area cta-bg pt-140 pb-140">
             <div className="container">
               <div className="row">
@@ -827,11 +869,8 @@ export default function Home() {
               </div>
             </div>
           </section>
-
           {/* <!--======  CTA PART End ======--> */}
-
           {/* <!--======  Skills PART START ======--> */}
-
           <section className="team-area pt-140 pb-140" id="team">
             <div className="container">
               <div className="row">
@@ -881,11 +920,8 @@ export default function Home() {
               </div>
             </div>
           </section>
-
           {/* <!--======  Skill PART End ======--> */}
-
           {/* <!--======  VIDEO PART START ======--> */}
-
           {userData?.user?.youtube.map((video, index) => (
             <section className="video-area vdeo-bg" key={index}>
               <div className="container">
@@ -903,8 +939,8 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="video-content">
-                <h1>{video.title}</h1>
+              <div className="text-right">
+                <h1 className="text-warning">{video.title}</h1>
                 <p>{video.description}</p>
                 <a href={video.learnMorea} className="video-read-more">
                   Learn More <i className="fa fa-arrow-right"></i>
@@ -912,11 +948,8 @@ export default function Home() {
               </div>
             </section>
           ))}
-
           {/* <!--======  VIDEO PART END ======--> */}
-
           {/* <!--======  PROJECTS PART START ======--> */}
-
           <section className="project-counter-area">
             <div className="container">
               <div className="row pb-80">
@@ -968,11 +1001,8 @@ export default function Home() {
               </div>
             </div>
           </section>
-
           {/* <!--======  PROJECTS PART END ======--> */}
-
           {/* <!--======  TESTIMONIAL PART START ======--> */}
-
           <section className="testimonial-area" id="testimonial">
             <div className="container">
               <div className="row">
@@ -996,7 +1026,7 @@ export default function Home() {
                           <i className="fa fa-quote-right"></i>
                         </span>
                         <p>{testimonial.review}</p>
-                        <div className="autohor-details">
+                        <div className="autohor-details img-fluid">
                           <img
                             src={testimonial.image.url}
                             alt=""
@@ -1014,11 +1044,8 @@ export default function Home() {
               </div>
             </div>
           </section>
-
           {/* <!--======  TESTIMONIAL PART END ======--> */}
-
           {/* <!--======  PRICING PART START ======--> */}
-
           <section className="pricing-area pt-140 pb-140" id="price">
             <div className="container">
               <div className="row">
@@ -1155,11 +1182,8 @@ export default function Home() {
               </div>
             </div>
           </section>
-
           {/* <!--======  PRICING PART END ======--> */}
-
           {/* <!--======  Professional Journey ======--> */}
-
           <section className="blog-area pb-140" id="Blog">
             <div className="container">
               <div className="row">
@@ -1223,11 +1247,8 @@ export default function Home() {
               </div>
             </div>
           </section>
-
           {/* <!--======  Professional Journey ======--> */}
-
           {/* <!--======  CONTACT-WITH-FOOTER PART START ======--> */}
-
           <section
             className="contact-with-footer-area contact-bg pt-100"
             id="Contact"
@@ -1341,17 +1362,13 @@ export default function Home() {
               </div>
             </div>
           </section>
-
           {/* <!--======  CONTACT-WITH-FOOTER PART START ======--> */}
-
           {/* <!--======  SCROLL-TO-TOP PART START ======--> */}
-
           <div className="scroll-to-top">
             <span id="return-to-top" onClick={scrollToTop}>
               <i className="fa fa-arrow-up"></i>
             </span>
           </div>
-
           {/* <!--======  SCROLL-TO-TOP PART END ======--> */}
         </div>
       )}
