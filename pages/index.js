@@ -9,6 +9,54 @@ import Service from "../pages/api/Service";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(0);
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const offset = window.scrollY;
+      if (offset > 0) {
+        setIsSticky(true);
+      } else {
+        setIsSticky(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -59,66 +107,65 @@ export default function Home() {
     cssEase: "linear",
   };
 
-const NextArrow = (props) => {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{
-        ...style,
-        display: "block",
-        background: "linear-gradient(135deg, #4e8dff, #2563eb)",
-        borderRadius: "50%",
-        width: "40px",
-        height: "40px",
-        lineHeight: "40px",
-        textAlign: "center",
-        cursor: "pointer",
-        color: "white",
-        fontSize: "20px",
-        position: "absolute",
-        top: "50%",
-        right: "20px",
-        transform: "translateY(-50%)",
-        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
-      }}
-      onClick={onClick}
-    >
-      &rarr;
-    </div>
-  );
-};
+  const NextArrow = (props) => {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{
+          ...style,
+          display: "block",
+          background: "linear-gradient(135deg, #4e8dff, #2563eb)",
+          borderRadius: "50%",
+          width: "40px",
+          height: "40px",
+          lineHeight: "40px",
+          textAlign: "center",
+          cursor: "pointer",
+          color: "white",
+          fontSize: "20px",
+          position: "absolute",
+          top: "50%",
+          right: "20px",
+          transform: "translateY(-50%)",
+          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+        }}
+        onClick={onClick}
+      >
+        &rarr;
+      </div>
+    );
+  };
 
-const PrevArrow = (props) => {
-  const { className, style, onClick } = props;
-  return (
-    <div
-      className={className}
-      style={{
-        ...style,
-        display: "block",
-        background: "linear-gradient(135deg, #4e8dff, #2563eb)",
-        borderRadius: "50%",
-        width: "40px",
-        height: "40px",
-        lineHeight: "40px",
-        textAlign: "center",
-        cursor: "pointer",
-        color: "white",
-        fontSize: "20px",
-        position: "absolute",
-        top: "50%",
-        left: "20px",
-        transform: "translateY(-50%)",
-        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
-      }}
-      onClick={onClick}
-    >
-      &larr;
-    </div>
-  );
-};
-
+  const PrevArrow = (props) => {
+    const { className, style, onClick } = props;
+    return (
+      <div
+        className={className}
+        style={{
+          ...style,
+          display: "block",
+          background: "linear-gradient(135deg, #4e8dff, #2563eb)",
+          borderRadius: "50%",
+          width: "40px",
+          height: "40px",
+          lineHeight: "40px",
+          textAlign: "center",
+          cursor: "pointer",
+          color: "white",
+          fontSize: "20px",
+          position: "absolute",
+          top: "50%",
+          left: "20px",
+          transform: "translateY(-50%)",
+          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+        }}
+        onClick={onClick}
+      >
+        &larr;
+      </div>
+    );
+  };
 
   const [userData, setUserData] = useState(null);
   const [loader, setLoader] = useState(true);
@@ -228,7 +275,18 @@ const PrevArrow = (props) => {
                 </div>
               </div>
             </div>
-            <div className="bottom-header-area">
+            <div
+              className="bottom-header-area"
+              style={{
+                position: isSticky ? "fixed" : "relative",
+                top: isSticky ? "0" : "auto",
+                left: isSticky ? "0" : "auto",
+                right: isSticky ? "0" : "auto",
+                zIndex: isSticky ? "1000" : "auto",
+               backgroundColor: isSticky ? "rgba(0, 0, 0, 0.5)" : "transparent",
+                zIndex: isSticky ? "1000" : "auto",
+              }}
+            >
               <div className="container">
                 <div className="row">
                   <div className="col-lg-2">
@@ -238,8 +296,140 @@ const PrevArrow = (props) => {
                       </a>
                     </div>
                   </div>
-                  <div className="col-lg-12 text-right">
-                    <div className="mobile-menu-wrap"></div>
+                  <div className="col-lg-12 text-right ">
+                    <button
+                      style={{
+                        backgroundColor: "transparent",
+                        color: "#ffffff",
+                        borderRadius: "20px",
+                        border: "none",
+                        cursor: "pointer",
+                        opacity: windowWidth <= 992 ? 1 : 0,
+                        pointerEvents: windowWidth <= 992 ? "auto" : "none",
+                        fontSize: windowWidth <= 576 ? "18px" : "24px",
+                      }}
+                      onClick={toggleMenu}
+                    >
+                      {isMenuOpen ? <>&#8801;</> : <>&#8801;</>}{" "}
+                    </button>
+
+                    {/* Mobile menu */}
+                    {isMenuOpen && (
+                      <div
+                        style={{
+                          backgroundColor: "#000000",
+                          borderRadius: "8px",
+                          padding: "40px",
+                          marginTop: "8px",
+                          textAlign: "center",
+                        }}
+                      >
+                        <nav>
+                          <ul style={{ listStyle: "none", padding: 0 }}>
+                            <li>
+                              <a
+                                style={{
+                                  textDecoration: "none",
+                                  color: "#ffffff",
+                                }}
+                                href="#home"
+                              >
+                                Home
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                style={{
+                                  textDecoration: "none",
+                                  color: "#ffffff",
+                                }}
+                                href="#About"
+                              >
+                                About
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                style={{
+                                  textDecoration: "none",
+                                  color: "#ffffff",
+                                }}
+                                href="#Services"
+                              >
+                                Services
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                style={{
+                                  textDecoration: "none",
+                                  color: "#ffffff",
+                                }}
+                                href="#portfolio"
+                              >
+                                Projects
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                style={{
+                                  textDecoration: "none",
+                                  color: "#ffffff",
+                                }}
+                                href="#team"
+                              >
+                                Skills
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                style={{
+                                  textDecoration: "none",
+                                  color: "#ffffff",
+                                }}
+                                href="#testimonial"
+                              >
+                                Testimonial
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                style={{
+                                  textDecoration: "none",
+                                  color: "#ffffff",
+                                }}
+                                href="#Blog"
+                              >
+                                Professional Journey
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                style={{
+                                  textDecoration: "none",
+                                  color: "#ffffff",
+                                }}
+                                href="#price"
+                              >
+                                Price
+                              </a>
+                            </li>
+                            <li>
+                              <a
+                                style={{
+                                  textDecoration: "none",
+                                  color: "#ffffff",
+                                }}
+                                href="#Contact"
+                              >
+                                Contact
+                              </a>
+                            </li>
+                          </ul>
+                        </nav>
+                      </div>
+                    )}
+
                     <div className="header-search">
                       <span className="search-btn">
                         <i className="fa fa-search"></i>
@@ -247,9 +437,12 @@ const PrevArrow = (props) => {
                     </div>
                     <div className="main-menu">
                       <nav>
-                        <ul id="mobile-menu">
-                          <li class="current">
-                            <a href="#home">Home</a>
+                        <ul>
+                          {/* Desktop menu items */}
+                          <li>
+                            <a className="active" href="#home">
+                              Home
+                            </a>
                           </li>
                           <li>
                             <a href="#About">About</a>
@@ -278,8 +471,6 @@ const PrevArrow = (props) => {
                         </ul>
                       </nav>
                     </div>
-
-                    {/* Display user's name here */}
                   </div>
                 </div>
               </div>
@@ -1120,20 +1311,27 @@ const PrevArrow = (props) => {
             </div>
             <div className="footer-bottom-area">
               <div className="container">
-                <div className="row">
+                <div className="row align-items-center">
                   <div className="col-lg-6">
                     <p>&copy; 2020 Livvic. All Rights Reserved</p>
                   </div>
-                  <div className="col-lg-6">
-                    <ul className="footer-as">
+                  <div className="col-lg-6 text-lg-end">
+                    {" "}
+                    {/* Align items to end (right) */}
+                    <ul className="footer-as d-flex justify-content-end list-unstyled">
                       {userData?.user?.social_handles.map((social, index) => (
-                        <li key={index}>
+                        <li key={index} className="m-1">
                           <a
                             className="p-2"
                             href={social.a}
                             title={social.platform}
                           >
-                            <img className="" src={social?.image?.url} alt="" />
+                            <img
+                              className="social-icon"
+                              src={social?.image?.url}
+                              alt=""
+                              style={{ width: "30px", height: "30px" }}
+                            />
                           </a>
                         </li>
                       ))}
