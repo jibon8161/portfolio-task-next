@@ -341,7 +341,6 @@ export default function Home() {
                       {isMenuOpen ? <>&#8801;</> : <>&#8801;</>}{" "}
                     </button>
 
-                  
                     {isMenuOpen && (
                       <div
                         style={{
@@ -466,7 +465,6 @@ export default function Home() {
                     <div className="main-menu">
                       <nav>
                         <ul>
-                        
                           <li>
                             <a className="active" href="#home">
                               Home
@@ -746,7 +744,7 @@ export default function Home() {
                             alt=""
                           />
                           <div className="service-details">
-                            <h3>{service.name}</h3>
+                            <h3 className="">{service.name}</h3>
                             <h4>Charge: {service.charge}</h4>
                             <p className="text-light mt-3">{service.desc}</p>
                           </div>
@@ -756,7 +754,6 @@ export default function Home() {
                   ))}
                 </div>
 
-             
                 <style jsx>{`
                   .service-card {
                     border: 1px solid #ccc;
@@ -769,9 +766,9 @@ export default function Home() {
                   }
 
                   .service-thumbnail {
-                    width: 80px;
+                    width: 55px;
                     height: auto;
-                    margin-right: 25px;
+                    margin-right: 5px;
                   }
 
                   .service-details {
@@ -928,7 +925,6 @@ export default function Home() {
                 <div className="row">
                   <div className="col-lg-12">
                     <div className="video-icon-area">
-                     
                       <a
                         href={`https://www.youtube.com/watch?v=${video.embedId}`}
                         className="video-icon video-popup"
@@ -1007,7 +1003,6 @@ export default function Home() {
             <div className="container">
               <div className="row">
                 <div className="col-lg-5">
-                 
                   <div className="text-center">
                     <img
                       className="w-full mt-100 p-3 mx-auto d-block"
@@ -1275,7 +1270,6 @@ export default function Home() {
                 <div className="col-lg-12">
                   <div className="md:contact-form-area">
                     <form action="#">
-                    
                       <div className="row mb-3 ">
                         <div className="col-lg-4 col-md-12 mb-md-3 mb-lg-0 ">
                           <div className="input-group">
@@ -1315,7 +1309,6 @@ export default function Home() {
                         </div>
                       </div>
 
-                    
                       <div className="row mb-3">
                         <div className="col-lg-12">
                           <div className="input-group">
@@ -1334,7 +1327,6 @@ export default function Home() {
                         </div>
                       </div>
 
-                  
                       <div className="row mb-3">
                         <div className="col-lg-12">
                           <button
@@ -1385,7 +1377,6 @@ export default function Home() {
                   </div>
                   <div className="col-lg-6 text-lg-end">
                     {" "}
-                
                     <ul className="footer-as d-flex justify-content-end list-unstyled">
                       {userData?.user?.social_handles.map((social, index) => (
                         <li key={index} className="m-1">
